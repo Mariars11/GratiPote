@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const ExibirGratidaoScreen = () => {
     const [gratidoes, setGratidoes] = useState([]);  
-    let [frase, setFrase] = useState('');
+    let [gratidao, setGratidao] = useState([]);
     let [hasLoaded, setHasLoaded] = useState(false);
 
     async function loadData(){
@@ -16,6 +16,7 @@ export const ExibirGratidaoScreen = () => {
             gratidaoAleatoria();
         }
         if(gratidoes.length !== 0){
+            console.log(gratidoes);
             setHasLoaded(true);
         }
     }
@@ -29,19 +30,28 @@ export const ExibirGratidaoScreen = () => {
     async function gratidaoAleatoria() {        
         if(gratidoes.length !== 0){            
             var index = Math.floor(Math.random() * gratidoes.length);
-            var gratidao = gratidoes[index];
-            if(gratidao !== null){
-                setFrase(gratidao.descricao);
+            var gratidaoSorteada = gratidoes[index];
+            if(gratidaoSorteada !== null){
+                setGratidao(gratidaoSorteada);
             }
         }
     }
-
+    async function removeGratidao () {
+        const index = gratidoes.findIndex(item => item.id === gratidao.id);
+        gratidoes.splice(index, 1);
+        await AsyncStorage.setItem('gratidoes', JSON.stringify(gratidoes));
+        console.log(`Removido ${gratidao.descricao} no index ${index}`);
+        navigation.navigate('GratiPote')
+      }
     const navigation = useNavigation();
       return (
         <View>
             <Button onPress={() => navigation.navigate('GratiPote')}  title='Home'/>
-            <Button onPress={() => navigation.navigate('Listar Gratidão')}  title='Listar'/>
-            <Text>{frase}</Text>
+            <Button color={'red'} onPress={() => removeGratidao()}  title='Excluir'/>
+
+            <Text>{gratidao.descricao}</Text>
+            <Button color={'green'} onPress={() => gratidaoAleatoria()}  title='Sortear'/>
+
         </View>
       );
   }
