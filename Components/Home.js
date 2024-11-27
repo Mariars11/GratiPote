@@ -1,13 +1,11 @@
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
 export const HomeScreen = () => {
     const navigation = useNavigation();
-
+    let urlImgLogo = '../assets/icon.png'
     return (
         <View style={styles.container}>
-            {/* Título Principal */}
-            <Text style={styles.title}>Gratipote</Text>
+            <Image style={styles.imagem} source={require(urlImgLogo)}/>
 
             {/* Subtítulo */}
             <Text style={styles.subtitle}>Seu potinho pessoal de gratidão</Text>
@@ -20,7 +18,7 @@ export const HomeScreen = () => {
             {/* Botões */}
             <View style={styles.buttonContainer}>
                 <Button
-                    title="Add"
+                    title="Adicionar"
                     color="#4CAF50"
                     onPress={() => navigation.navigate('Criar Gratidão')}
                 />
@@ -52,9 +50,15 @@ const styles = StyleSheet.create({
     subtitle: {
         fontSize: 16,
         color: '#666',
+        fontWeight: 'bold',
         textAlign: 'center',
         marginBottom: 10,
     },
+    imagem:{
+        maxWidth: 250,
+        maxHeight: 250,
+        resizeMode: 'contain'
+      },
     description: {
         fontSize: 14,
         color: '#888',
